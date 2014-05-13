@@ -231,7 +231,33 @@ function mu_careers_pdf_url($id){
 		return false;
 	}
 }
+/*------- Short Code -------*/
 
+function list_careers_shortcode(){
+	//set args
+	$args = array(
+		'posts_per_page'   => -1,
+		'orderby'          => 'post_date',
+		'order'            => 'DESC',
+		'post_type'        => 'mu_careers',
+		'post_status'      => 'publish',
+		'suppress_filters' => true );
+	
+	//get posts
+	$posts_array = get_posts( $args );
+		//loop
+		foreach($posts_array as $post){
+		//setup post data
+		global $post;
+		setup_postdata( $post );
+			//temp part
+			get_template_part('loop','careers');
+			
+		}
+	
+}
+
+add_shortcode('list_careers','list_careers_shortcode');
 
 
 ?>
