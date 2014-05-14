@@ -234,6 +234,7 @@ function mu_careers_pdf_url($id){
 /*------- Short Code -------*/
 
 function list_careers_shortcode(){
+	ob_start();
 	//set args
 	$args = array(
 		'posts_per_page'   => -1,
@@ -246,14 +247,20 @@ function list_careers_shortcode(){
 	//get posts
 	$posts_array = get_posts( $args );
 		//loop
+		global $post;
+		echo '<div id="posts-wrap">';
 		foreach($posts_array as $post){
 		//setup post data
-		global $post;
 		setup_postdata( $post );
 			//temp part
-			get_template_part('loop','careers');
-			
+			get_template_part('partials/loop','careers');
 		}
+		echo '</div>';
+		wp_reset_postdata();
+		
+	$contents_html = ob_get_contents();
+	ob_end_clean();
+	return $contents_html;
 	
 }
 
